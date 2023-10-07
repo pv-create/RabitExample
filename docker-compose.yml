@@ -1,0 +1,68 @@
+version: '3.4'
+
+services:
+  newsletter.api:
+    image: ${DOCKER_REGISTRY-}newsletterapi
+    build:
+      context: .
+      dockerfile: NewsLetter.Api/Dockerfile
+    ports:
+        - "5001:443"
+    environment:
+        SERVER: newslater-db
+        DATABASE: MewsLatter.Db
+        USER_ID: sa
+        Password: Strong_password_123!
+
+  newsletter.reporting.api:
+    image: ${DOCKER_REGISTRY-}newsletterreportingapi
+    container_name: NewsLetter.Reporting.Api
+    build:
+        context: .
+        dockerfile: NewsLetter.Reporting.Api/Dockerfile
+    ports:
+        - "6001:443"
+    environment:
+      - "DatabaseSettings__ConnectionString=mongodb://stackupMongo:27017"
+      - "DatabaseSettings__DatabaseName=NewsLater"
+      - "DatabaseSettings__ArticlesCollectionName=Articles"
+ 
+
+ 
+
+ 
+  newslater-db:
+    image: mcr.microsoft.com/mssql/server
+    container_name: MewsLatter.Db
+    volumes:
+        - ./.containers/database:/var/opt/mssql/data
+    ports:
+       - "1433:1433"
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Strong_password_123!"
+
+  stackupMongo:
+    image: mongo
+    container_name: stackupMongo
+    restart: always
+    ports:
+      - "27017:27017"
+
+  newslater-mq:
+    image: rabbitmq:management
+    container_name: Newslatter.RabbitMq
+    hostname: newslatter-mq
+    volumes:
+        -  ./.containers/queue/data/:/var/lib/rabbitmq 
+        -  ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+
+  stackupRedis:
+    image: redis:alpine
+    container_name: stackupRedis
+    restart: always
+    ports:
+      - "6379:6379"

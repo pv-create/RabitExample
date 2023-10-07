@@ -1,0 +1,11 @@
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\bin\Debug\net6.0\NewsLetter.Core.deps.json
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\bin\Debug\net6.0\NewsLetter.Core.dll
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\bin\Debug\net6.0\NewsLetter.Core.pdb
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\NewsLetter.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\NewsLetter.Core.AssemblyInfoInputs.cache
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\NewsLetter.Core.AssemblyInfo.cs
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\NewsLetter.Core.csproj.CoreCompileInputs.cache
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\NewsLetter.Core.dll
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\refint\NewsLetter.Core.dll
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\NewsLetter.Core.pdb
+C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\Core\obj\Debug\net6.0\ref\NewsLetter.Core.dll

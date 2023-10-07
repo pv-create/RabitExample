@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "WTmuFr3UaMllwhwzQ7EWMcxHp2p4CFS8c0i9sFa9rYVzCSNocRJFlonRnDMlGCv5+Y0c9PMAZXOkryhR0L0tRQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\vilkov_pyu\\projects\\RabitMqExample\\RabitExample\\RabitExample.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\vilkov_pyu\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.4\\microsoft.visualstudio.azure.containers.tools.targets.1.19.4.nupkg.sha512"
+  ],
+  "logs": []
+}

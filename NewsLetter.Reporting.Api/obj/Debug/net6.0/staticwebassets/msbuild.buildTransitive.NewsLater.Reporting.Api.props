@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\NewsLater.Reporting.Api.props" />
+</Project>

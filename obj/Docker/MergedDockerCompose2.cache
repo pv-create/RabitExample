@@ -1,0 +1,130 @@
+services:
+  newslater-db:
+    container_name: MewsLatter.Db
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Strong_password_123!
+    image: mcr.microsoft.com/mssql/server
+    ports:
+    - published: 1433
+      target: 1433
+    volumes:
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\.containers\database:/var/opt/mssql/data:rw
+  newslater-mq:
+    container_name: Newslatter.RabbitMq
+    environment:
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: guest
+    hostname: newslatter-mq
+    image: rabbitmq:management
+    volumes:
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\.containers\queue\data:/var/lib/rabbitmq:rw
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\.containers\queue\log:/var/log/rabbitmq:rw
+  newsletter.api:
+    build:
+      context: C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample
+      dockerfile: NewsLetter.Api/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: NewsLetter.Api
+      target: base
+    container_name: NewsLetter.Api_1
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DATABASE: MewsLatter.Db
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /.nuget/fallbackpackages
+      Password: Strong_password_123!
+      SERVER: newslater-db
+      USER_ID: sa
+    image: newsletterapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages
+        --additionalProbingPath /.nuget/fallbackpackages  "/app/bin/Debug/net6.0/NewsLetter.Api.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - published: 5001
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages:/.nuget/fallbackpackages:ro
+    - C:\Users\vilkov_pyu\.nuget\packages:/.nuget/packages:ro
+    - C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload:/HotReloadAgent:ro
+    - C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net6.0:/HotReloadProxy:ro
+    - C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net6.0:/TokenService.Proxy:ro
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\NewsLetter.Api:/app:rw
+    - C:\Users\vilkov_pyu\AppData\Roaming\ASP.NET\Https:/home/app/.aspnet/https:ro
+    - C:\Users\vilkov_pyu\AppData\Roaming\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
+    - C:\Users\vilkov_pyu\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\vilkov_pyu\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\vilkov_pyu\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample:/src:rw
+  newsletter.reporting.api:
+    build:
+      context: C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample
+      dockerfile: NewsLetter.Reporting.Api/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: NewsLetter.Reporting.Api
+      target: base
+    container_name: NewsLetter.Reporting.Api
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      DatabaseSettings__ArticlesCollectionName: Articles
+      DatabaseSettings__ConnectionString: mongodb://stackupMongo:27017
+      DatabaseSettings__DatabaseName: NewsLater
+      NUGET_FALLBACK_PACKAGES: /.nuget/fallbackpackages
+    image: newsletterreportingapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages
+        --additionalProbingPath /.nuget/fallbackpackages  "/app/bin/Debug/net6.0/NewsLetter.Reporting.Api.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - published: 6001
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages:/.nuget/fallbackpackages:ro
+    - C:\Users\vilkov_pyu\.nuget\packages:/.nuget/packages:ro
+    - C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload:/HotReloadAgent:ro
+    - C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net6.0:/HotReloadProxy:ro
+    - C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net6.0:/TokenService.Proxy:ro
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\NewsLetter.Reporting.Api:/app:rw
+    - C:\Users\vilkov_pyu\AppData\Roaming\ASP.NET\Https:/home/app/.aspnet/https:ro
+    - C:\Users\vilkov_pyu\AppData\Roaming\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
+    - C:\Users\vilkov_pyu\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\vilkov_pyu\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\vilkov_pyu\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample:/src:rw
+  stackupMongo:
+    container_name: stackupMongo
+    image: mongo
+    ports:
+    - published: 27017
+      target: 27017
+    restart: always
+  stackupRedis:
+    container_name: stackupRedis
+    image: redis:alpine
+    ports:
+    - published: 6379
+      target: 6379
+    restart: always
+version: '3.4'

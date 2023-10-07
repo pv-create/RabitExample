@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "OQTN/FTWB4g5vPuu6H4EbEX4EpdU5CwqXb6F/qJilbYdyNaFIxgra04QV4gODjXFg6ac5dMhbZ59prxRY8RiyA==",
+  "success": true,
+  "projectFilePath": "/Users/pavelvilkov/Downloads/RabitExample/Core/NewsLetter.Core.csproj",
+  "expectedPackageFiles": [
+    "/Users/pavelvilkov/.nuget/packages/microsoft.netcore.app.ref/6.0.16/microsoft.netcore.app.ref.6.0.16.nupkg.sha512",
+    "/Users/pavelvilkov/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.16/microsoft.aspnetcore.app.ref.6.0.16.nupkg.sha512"
+  ],
+  "logs": []
+}

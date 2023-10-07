@@ -1,0 +1,77 @@
+services:
+  newslater-db:
+    container_name: MewsLatter.Db
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Strong_password_123!
+    image: mcr.microsoft.com/mssql/server
+    ports:
+    - published: 1433
+      target: 1433
+    volumes:
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\.containers\database:/var/opt/mssql/data:rw
+  newslater-mq:
+    container_name: Newslatter.RabbitMq
+    environment:
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: guest
+    hostname: newslatter-mq
+    image: rabbitmq:management
+    volumes:
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\.containers\queue\data:/var/lib/rabbitmq:rw
+    - C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample\.containers\queue\log:/var/log/rabbitmq:rw
+  newsletter.api:
+    build:
+      context: C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample
+      dockerfile: NewsLetter.Api/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DATABASE: MewsLatter.Db
+      Password: Strong_password_123!
+      SERVER: newslater-db
+      USER_ID: sa
+    image: newsletterapi
+    ports:
+    - target: 80
+    - published: 5001
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\vilkov_pyu\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\vilkov_pyu\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  newsletter.reporting.api:
+    build:
+      context: C:\Users\vilkov_pyu\projects\RabitMqExample\RabitExample
+      dockerfile: NewsLetter.Reporting.Api/Dockerfile
+    container_name: NewsLetter.Reporting.Api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DatabaseSettings__ArticlesCollectionName: Articles
+      DatabaseSettings__ConnectionString: mongodb://stackupMongo:27017
+      DatabaseSettings__DatabaseName: NewsLater
+    image: newsletterreportingapi
+    ports:
+    - target: 80
+    - published: 6001
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\vilkov_pyu\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\vilkov_pyu\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  stackupMongo:
+    container_name: stackupMongo
+    image: mongo
+    ports:
+    - published: 27017
+      target: 27017
+    restart: always
+  stackupRedis:
+    container_name: stackupRedis
+    image: redis:alpine
+    ports:
+    - published: 6379
+      target: 6379
+    restart: always
+version: '3.4'

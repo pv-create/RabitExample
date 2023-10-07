@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\NewsLetter.Reporting.Api.props" />
+</Project>
